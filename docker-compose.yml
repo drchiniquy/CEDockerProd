@@ -1,4 +1,4 @@
-###############################################################################
+###############################################etc################################
 #                          Don Juan Pablo                                     #
 ###############################################################################
 version: "3.1"
@@ -22,9 +22,10 @@ services:
       volumes:
         - ./application:/application
         - ./cloudengage:/cloudengage
-        - ./phpdocker/php-fpm/php-ini-overrides.ini:/etc/php/7.0/fpm/conf.d/99-overrides.ini
+        - ./phpdocker/php-fpm/php-ini-overrides.ini:/etc/php5/fpm/conf.d/99-overrides.ini
+        - ./xdebug.log:/log/xdebug.log
       environment: 
-         XDEBUG_CONFIG: remote_host=10.0.0.117 remote_enable=1 remote_autostart=1 remote_log=/log/xdebug.log
+         XDEBUG_CONFIG: remote_host=10.0.0.117 remote_enable=1 remote_autostart=1 remote_log=/log/xdebug.log PHP_IDE_CONFIG=PHPSTORM
 
     mongo:
        restart: always
@@ -36,6 +37,21 @@ services:
        volumes:
          - mongo:/data/db
 
+    sqldb:
+       image: mariadb
+       restart: always
+       expose:
+         - "3306"
+       ports:
+         - "3306:3306"
+       volumes:
+         - ./phpdocker/data:/var/lib/mysql:rw
+         - ./phpdocker/database/schema.sql:/docker-entrypoint-initdb.d/schema.sql:ro
+       environment:
+         MYSQL_ROOT_PASSWORD: a71dpwro
+
 volumes:
   mongo:
+    driver: local
+  mysql:
     driver: local

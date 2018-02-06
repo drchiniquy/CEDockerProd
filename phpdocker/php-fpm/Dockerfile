@@ -1,18 +1,14 @@
-FROM phpdockerio/php7-fpm:latest
+FROM phpdockerio/php56-fpm:latest
 WORKDIR "/application"
 
 # Install selected extensions and other stuff
 RUN apt-get update \
-    && apt-get -y --no-install-recommends install  php7.0-memcached php7.0-mongodb php7.0-mysql php7.0-bz2 php7.0-dbg php7.0-imagick php7.0-phpdbg php7.0-xdebug \
+    && apt-get -y --no-install-recommends install  php5-memcached php5-mongo php5-mysql php5-adodb php5-geoip php5-pecl-http php5-imagick php5-memcache php5-phpdbg php5-ssh2 php5-twig php5-xdebug php5-xsl \
     && apt-get clean; rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/*
 
-# Install git
-RUN apt-get update \
-    && apt-get -y install git \
-    && apt-get clean; rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/*
 
     
 # Install phalcon
 RUN curl -s https://packagecloud.io/install/repositories/phalcon/stable/script.deb.sh | bash \
-    && apt-get install -y php7.0-phalcon \
+    && apt-get install -y php5-phalcon \
     && apt-get clean; rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/*
