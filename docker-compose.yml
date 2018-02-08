@@ -1,4 +1,4 @@
-###############################################etc################################
+###############################################################################
 #                          Don Juan Pablo                                     #
 ###############################################################################
 version: "3.1"
@@ -23,9 +23,11 @@ services:
         - ./application:/application
         - ./cloudengage:/cloudengage
         - ./phpdocker/php-fpm/php-ini-overrides.ini:/etc/php5/fpm/conf.d/99-overrides.ini
+        - ./phpdocker/php-fpm/overrides.conf:/etc/php5/fpm/pool.d/99-overrides.conf
         - ./xdebug.log:/log/xdebug.log
+        - ./phpdocker/php-fpm/error.log:/var/log/php-fpm/error.log
       environment: 
-         XDEBUG_CONFIG: remote_host=10.0.0.117 remote_enable=1 remote_autostart=1 remote_log=/log/xdebug.log PHP_IDE_CONFIG=PHPSTORM
+         XDEBUG_CONFIG: remote_host=10.0.0.117 remote_enable=1 remote_port=9000 remote_autostart=1 remote_log=/log/xdebug.log PHP_IDE_CONFIG=PHPSTORM
 
     mongo:
        restart: always
