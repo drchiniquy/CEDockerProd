@@ -13,7 +13,7 @@ services:
           - ./cloudengage:/cloudengage
           - ./phpdocker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
       ports:
-       - "8080:80"
+       - "80:80"
 
     php-fpm:
       build: phpdocker/php-fpm
@@ -22,12 +22,12 @@ services:
       volumes:
         - ./application:/application
         - ./cloudengage:/cloudengage
-        - ./phpdocker/php-fpm/php-ini-overrides.ini:/etc/php5/fpm/conf.d/99-overrides.ini
-        - ./phpdocker/php-fpm/overrides.conf:/etc/php5/fpm/pool.d/99-overrides.conf
+        - ./phpdocker/php-fpm/php-ini-overrides.ini:/etc/php/7.0/fpm/conf.d/99-overrides.ini
+        - ./phpdocker/php-fpm/overrides.conf:/etc/php/7.0/fpm/pool.d/99-overrides.conf
         - ./xdebug.log:/log/xdebug.log
         - ./phpdocker/php-fpm/error.log:/var/log/php-fpm/error.log
       environment: 
-         XDEBUG_CONFIG: remote_host=10.0.0.117 remote_enable=1 remote_port=9000 remote_autostart=1 remote_log=/log/xdebug.log PHP_IDE_CONFIG=PHPSTORM
+         XDEBUG_CONFIG: remote_host=192.168.0.11 remote_enable=1 remote_port=9000 remote_autostart=1 PHP_IDE_CONFIG=PHPSTORM
 
     mongo:
        restart: always
@@ -50,7 +50,7 @@ services:
          - ./phpdocker/data:/var/lib/mysql:rw
          - ./phpdocker/database/schema.sql:/docker-entrypoint-initdb.d/schema.sql:ro
        environment:
-         MYSQL_ROOT_PASSWORD: a71dpwro
+         MYSQL_ROOT_PASSWORD: notstrong
 
 volumes:
   mongo:
